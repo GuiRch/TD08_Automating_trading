@@ -7,7 +7,7 @@ def createCandleTable(exchangeName, pair, duration):
     conn = sqlite3.connect('candleDatabase.db')
     cur = conn.cursor()
 
-    tableCreationStatement = """CREATE TABLE """ + setTableName + """(Id INTEGER PRIMARY KEY, date INT, high REAL, low REAL, open REAL, close REAL, volume REAL, quotevolume REAL)"""
+    tableCreationStatement = """CREATE TABLE """ + setTableName + """(Id INTEGER PRIMARY KEY, date INT, high REAL, low REAL, open REAL, close REAL, volume REAL, quotevolume REAL, sma_7 REAL, ema_7 REAL, sma_30 REAL, ema_30 REAL, sma_200 REAL, ema_200 REAL)"""
     cur.execute(tableCreationStatement)
 
     conn.commit()
