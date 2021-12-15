@@ -1,5 +1,5 @@
-#%%
 import sqlite3
+
 
 def createCandleTable(exchangeName, pair, duration):
 
@@ -12,6 +12,7 @@ def createCandleTable(exchangeName, pair, duration):
 
     conn.commit()
     conn.close()
+
 
 def createFullDatasetTable(exchangeName, pair):
 
@@ -27,6 +28,7 @@ def createFullDatasetTable(exchangeName, pair):
     conn.commit()
     conn.close()
 
+
 def createTrackOfUpdateTable():
 
     conn = sqlite3.connect('candleDatabase.db')
@@ -38,6 +40,7 @@ def createTrackOfUpdateTable():
     conn.commit()
     conn.close()
 
-print(createCandleTable('Binance', 'ETHBUSD', '5m'))
-print(createFullDatasetTable('Binance', 'ETHBUSD'))
-print(createTrackOfUpdateTable())
+
+createCandleTable('Binance', 'ETHBUSD', '5m')
+createFullDatasetTable('Binance', 'ETHBUSD')
+createTrackOfUpdateTable()

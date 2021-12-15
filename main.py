@@ -1,16 +1,15 @@
-#%%
 import pandas as pd
 import sqlite3, requests, json
 from ta.trend import SMAIndicator, EMAIndicator
 
-#%%
+
 ENDPOINT = "https://api.binance.com/"
+
 
 # Check for connection to the API
 r = requests.get(ENDPOINT + "api/v3/exchangeInfo")
 r.status_code
 
-#%%
 
 # Get all avaible cryptocurrencies
 def avaibleCrypto():
@@ -23,32 +22,20 @@ def avaibleCrypto():
 
   return baseAsset
 
-print(avaibleCrypto())
-
-#%%
 
 # Get the order book for the required pair 
 def orderBook(pair):
   r = requests.get(ENDPOINT + "api/v3/depth", params=dict(symbol=pair))
   return (json.loads(r.text))
 
-# print(orderBook('ETHBUSD'))
-
-#%%
 
 # Get ask or bids for different cryptocurrencies
 def getDepth(direction, pair):
   r = orderBook(pair)
   return r[direction][0][0]
 
-# print(getDepth('asks','ETHBUSD'))
 
-#%%
-
-# def getCandleData(pair, duration):
-#   r = requests.get(ENDPOINT + "api/v3/klines", params=dict(symbol=pair, interval=duration))
-#   return (json.loads(r.text))
-
+# Get candles and indicators values
 def getCandleData(pair, duration):
   r = requests.get(ENDPOINT + "api/v3/klines", params=dict(symbol=pair, interval=duration))
   bars = json.loads(r.text)
@@ -74,16 +61,8 @@ def getCandleData(pair, duration):
 
   return (df)
 
-# print(getCandleData('ETHBUSD', '5m'))
-# print(type(getCandleData('ETHBUSD', '5m')))
 
-
-def jsonToDict(JSONfile='data.json'):
-    with open(JSONfile) as json_data:
-        data_dict = json.load(json_data)
-    return(data_dict)
-
-
+# Store candles and indicators values to database
 def storeCandleData(pair, duration, database="candleDatabase.db"):
     df = getCandleData(pair, duration)
 
@@ -127,4 +106,15 @@ def storeCandleData(pair, duration, database="candleDatabase.db"):
     conn.commit()
     conn.close() 
 
-storeCandleData('ETHBUSD', '5m')
+
+# ============ FUNCTION TEST ============
+
+# print(avaibleCrypto())
+
+# print(orderBook('ETHBUSD'))
+
+# print(getDepth('asks','ETHBUSD'))
+
+# print(getCandleData('ETHBUSD', '5m'))
+
+# storeCandleData('ETHBUSD', '5m')

@@ -2,14 +2,14 @@ import time, hmac, requests, json
 
 API_KEY = ''
 API_SECRET = ''
-BURL = 'https://api.binance.com'
+ENDPOINT = 'https://api.binance.com/'
 
-endpoint = '/api/v3/order'
+order_api_url = 'api/v3/order'
 
 
 def get_signed_url(dataQueryString, secret_key):
     signature = hmac.new(API_SECRET.encode(), dataQueryString.encode(), 'sha256').hexdigest()
-    return (BURL + endpoint + '?' + dataQueryString + '&signature=' + signature)
+    return (ENDPOINT + order_api_url + '?' + dataQueryString + '&signature=' + signature)
 
 
 def createOrder(api_key, secret_key, direction, price, amount, pair='BTCUSDT', orderType='LimitOrder'):
@@ -44,11 +44,12 @@ def cancelOrder(api_key, secret_key, uuid, pair='BTCUSDT'):
     return r
 
 
+# CREATE ORDER
+r = createOrder(API_KEY, API_SECRET, 'buy', 30000, 0.001)
 
-# r = createOrder(API_KEY, API_SECRET, 'buy', 30000, 0.0015)
-
+# DELETE ORDER
 # uuid = 8618063338
 # r = cancelOrder(API_KEY, API_SECRET, uuid)
 
-# print(r)
+print(r)
 
